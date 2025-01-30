@@ -1,0 +1,24 @@
+<!-- filepath: /resources/views/home.blade.php -->
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto px-6 py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Home') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in!') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
