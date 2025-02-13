@@ -2,82 +2,60 @@
 
 @section('content')
 <div class="container mx-auto px-6 py-3">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
+    <div class="flex justify-center">
+        <div class="w-full max-w-md">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="bg-gray-800 text-white text-center py-4">
+                    <h2 class="text-2xl font-semibold">{{ __('Register') }}</h2>
+                </div>
+                <div class="p-6">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="face_data" class="col-md-4 col-form-label text-md-right">{{ __('Face Data') }}</label>
-
-                            <div class="col-md-6">
-                                <video id="video" width="720" height="560" autoplay muted></video>
-                                <canvas id="canvas" style="display: none;"></canvas>
+                        <div class="flex justify-center mb-6">
+                            <div class="relative">
+                                <video id="video" class="rounded-full w-60 h-60 object-cover" autoplay muted></video>
+                                <canvas id="canvas" class="hidden"></canvas>
                                 <input type="hidden" name="face_data" id="face_data">
-                                <button type="button" class="btn btn-primary mt-2" id="capture">Capture Face</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                <button type="button" class="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-2" id="capture">
+                                    Capture Face
                                 </button>
                             </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Name') }}</label>
+                            <input id="name" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('name') border-red-500 @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            @error('name')
+                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">{{ __('E-Mail Address') }}</label>
+                            <input id="email" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            @error('email')
+                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Password') }}</label>
+                            <input id="password" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('password') border-red-500 @enderror" name="password" required autocomplete="new-password">
+                            @error('password')
+                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Confirm Password') }}</label>
+                            <input id="password-confirm" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password_confirmation" required autocomplete="new-password">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                {{ __('Register') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -90,7 +68,7 @@
 <script>
     async function loadModels() {
         try {
-            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models'); // Ganti ke SSD Mobilenet
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
             await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
             await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
             console.log('Models loaded successfully');
@@ -105,7 +83,11 @@
         const canvas = document.getElementById('canvas');
         const faceDataInput = document.getElementById('face_data');
 
-        const displaySize = { width: video.width, height: video.height };
+        // Pastikan ukuran video dan canvas sesuai
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const displaySize = { width: video.videoWidth, height: video.videoHeight };
         faceapi.matchDimensions(canvas, displaySize);
 
         const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options())
@@ -119,9 +101,9 @@
 
             const faceDescriptor = detections[0].descriptor;
             faceDataInput.value = JSON.stringify(faceDescriptor);
-            alert('Face detected successfully!');
+            alert('Wajah berhasil diambil!');
         } else {
-            alert('No face detected. Please ensure your face is clearly visible and try again.');
+            alert('Wajah Tidak Ditemukan. Silakan coba lagi.');
         }
     }
 
@@ -129,10 +111,11 @@
 
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
-            document.getElementById('video').srcObject = stream;
+            const video = document.getElementById('video');
+            video.srcObject = stream;
             setTimeout(() => {
                 console.log("Camera is ready!");
-            }, 2000); // Tunggu 2 detik sebelum capture
+            }, 2000);
         })
         .catch(err => {
             console.error("Error accessing the camera: ", err);

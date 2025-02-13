@@ -29,7 +29,7 @@ class RegisterController extends Controller
         // Optionally, log the user in after registration
         Auth::login($user);
 
-        return redirect()->intended('/home');
+        return redirect()->intended('/');
     }
 
     protected function create(array $data)

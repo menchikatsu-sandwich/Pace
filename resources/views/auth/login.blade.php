@@ -1,35 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-6 py-3">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<div class="container mx-auto px-6 py-3 flex justify-center">
+    <div class="w-full max-w-md">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="bg-gray-800 text-white text-center py-4">
+                <h2 class="text-2xl font-semibold">{{ __('Login') }}</h2>
+            </div>
+            <div class="p-6">
+                <form id="login-form" method="POST" action="{{ route('login') }}">
+                    @csrf
 
-                <div class="card-body">
-                    <form id="login-form" method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">{{ __('Face Recognition') }}</label>
-                            <div class="col-md-6">
-                                <video id="video" width="720" height="560" autoplay muted></video>
-                                <canvas id="canvas" style="display: none;"></canvas>
-                                <button type="button" id="capture" class="btn btn-primary mt-2">Capture Face</button>
-                                <input type="hidden" name="face_data" id="face_data">
-                            </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-full max-w-sm md:max-w-lg lg:max-w-2xl">
+                            <video id="video" class="w-full h-auto aspect-square rounded-full object-cover" autoplay muted></video>
+                            <canvas id="canvas" class="hidden"></canvas>
+                            <input type="hidden" name="face_data" id="face_data">
                         </div>
+                        <button type="button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" id="capture">
+                            Capture Face
+                        </button>
+                    </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+
+                    <div class="flex justify-center mt-2">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            {{ __('Login') }}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -54,7 +53,10 @@
         const canvas = document.getElementById('canvas');
         const faceDataInput = document.getElementById('face_data');
 
-        const displaySize = { width: video.width, height: video.height };
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const displaySize = { width: video.videoWidth, height: video.videoHeight };
         faceapi.matchDimensions(canvas, displaySize);
 
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
@@ -90,7 +92,7 @@
         });
         const result = await response.json();
         if (result.success) {
-            window.location.href = result.redirect;
+            window.location.href = "/"; // Redirect ke home
         } else {
             alert(result.message);
         }
@@ -101,7 +103,7 @@
             document.getElementById('video').srcObject = stream;
             setTimeout(() => {
                 console.log("Camera is ready!");
-            }, 2000); // Wait 2 seconds before capture
+            }, 2000);
         })
         .catch(err => {
             console.error("Error accessing the camera: ", err);

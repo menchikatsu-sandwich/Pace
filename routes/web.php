@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 // Home route
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home');
 })->middleware('auth')->name('home');
 
